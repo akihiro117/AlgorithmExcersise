@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.Scanner;
 
 /**
@@ -35,21 +36,24 @@ class UniqueCharJudgement {
      */
     private static boolean judgeDuplicateCharExistance(String str) {
 
-            //一文字ずつ重複した文字がないか順番に調べる。
-            //最後から2番目の文字を調べて、重複した文字がなければ
-            //文字列に重複した文字はないことが確定するため、
-            //最後から2番目の文字まで繰り替えし処理を行う。
-            for (int i = 0; i < str.length() - 1; i++) {
-                //重複があるか調べる文字。
-                char targetChar = str.charAt(i);
+        //HashMapを使うことで計算量を削減する。
+        HashMap<String, Boolean> map = new HashMap<String, Boolean>();
 
-                for (int j = i + 1; j < str.length(); j++) {
-                    if (targetChar == str.charAt(j)) {
-                        return true;
-                    }
-                }
+        //一文字ずつ重複した文字がないか順番に調べる。
+        for (int i = 0; i < str.length(); i++) {
+            //重複があるか調べる文字。
+            String targetChar = String.valueOf(str.charAt(i));
+
+            if (map.get(targetChar) != null) {
+                //同じ文字が既にmapに入っている場合。
+                return true;
+            } else {
+                map.put(targetChar, true);
             }
-            return false;
+
+        }
+        //最後まで重複する文字が無かったらfalseを返す。
+        return false;
 
     }
 
